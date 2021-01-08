@@ -47,41 +47,44 @@ class UserController {
 
     }
 
-    static googleLogin(req, res, next) {
-        let payload;
-        client.verifyIdToken({
-            idToken: req.body.googleToken,
-            audience: process.env.GOOGLE_CLIENT_ID
-        })
-        .then(ticket => {
-            payload = ticket.getPayload()
-            return User.findOne({
+    static async googleLogin(req, res, next) {
+        try {
+            const ticket = await client.verifyIdToken({
+                idToken: req.body.googleToken,
+                audience: process.env.GOOGLE_CLIENT_ID
+            })
+            const payload = ticket.getPayload()
+            const findUser = await User.findOne({
                 where: {
                     email: payload.email
                 }
-            }) 
-        })
-        .then(user => {
-            if (user) {
-                return user
+            })
+            if(findUser) {
+                const googleUser = {
+                    id: payload.id,
+                    email: payload.email
+                }
+                const access_token = generateToken(googleUser)
+                res.status(200).json({access_token})
             }
             else {
-                return User.create({
+                const newUser = {
                     email: payload.email,
                     password: process.env.PASSWORD
-                })
+                }
+                const createUser = await User.create(newUser)
+                const googleUser = {
+                    id: createUser.id,
+                    email: createUser.email
+                }
+                const access_token = generateToken(googleUser)
+                res.status(201).json({access_token})
             }
-        })
-        .then(user => {
-            const access_token = generateToken({ 
-                email: user.email,
-                id: user.id
-            })
-            res.status(201).json({access_token})
-        })
-        .catch(err => {
-            next(err)
-        })
+        }
+
+        catch(error) {
+            next(error)
+        }
     }
 }
 

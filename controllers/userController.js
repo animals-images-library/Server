@@ -6,19 +6,25 @@ const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 class UserController {
     static register(req, res, next) {
+        console.log('-----------------------')
         let input = {
             email: req.body.email,
             password: req.body.password
         }
+        console.log(input)
         User.create(input)
             .then(data => {
+                console.log(data)
                 let result = {
                     id: data.id,
                     email: data.email
                 }
                 res.status(201).json(result)
             })
-            .catch(next)
+            .catch(err => {
+                console.log(err)
+                next(err)
+            })
     }
 
     static login(req, res, next) {

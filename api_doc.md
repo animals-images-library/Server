@@ -4,9 +4,9 @@
 - `POST /register`
 - `POST /login`
 
-- `POST /animals/dogs`
-- `POST /animals/fox`
-- `POST /animals/cats`
+- `POST /dogs`
+- `POST /fox`
+- `POST /cats`
 
 ## RESTful endpoints
 ### POST /register

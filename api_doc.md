@@ -74,7 +74,7 @@ _Response (400 - Bad Request)_
 ```
 
 ## LIBRARY endpoints
-### GET /animals/cats
+### GET /cats
 
 > Fetch cat image url
 
@@ -106,7 +106,7 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### GET /animals/dogs
+### GET /dogs
 
 > Fetch dog image url
 
@@ -134,7 +134,7 @@ _Response (500 - Internal Server Error)_
 }
 ```
 
-### GET /animals/fox
+### GET /fox
 
 > Fetch fox image url
 
@@ -151,7 +151,8 @@ not needed
 _Response (200 - Ok)_
 ```
 {
-  "image": "https://randomfox.ca/images/89.jpg","link":"https://randomfox.ca/?i=89"
+  "image": "https://randomfox.ca/images/89.jpg",
+  "link":"https://randomfox.ca/?i=89"
 }
 ```
 
